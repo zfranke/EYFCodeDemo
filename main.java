@@ -1,9 +1,14 @@
 package EYFCodeDemo;
+
+import java.util.Random;
+import java.util.Scanner;
 public class main {
 
     public void pickupFood(player playername) {
-        if(playername.getSize() < 11) {
-            playername.addSize(1);
+        Random rand = new Random();
+        //If player size is less then 1, add a random number to the players size to simulate food pickup
+        if (playername.getSize() < 1) {
+            playername.setSize(playername.getSize() + rand.nextInt(10));
         }
         
     } 
@@ -24,46 +29,66 @@ public class main {
         }
     }
 
-    public static void main(String[] args) {
+    //Main method
+    public static void mainRun(String[] args) {
         //Create two player objects
-        player p1 = new player("Todd");
-        player p2 = new player("Albert");
+        player p1 = new player("Todd",5);
+        player p2 = new player("Albert",5);
 
         //Print the size of each player
         System.out.println("Player 1 Size: " + p1.getSize());
         System.out.println("Player 2 Size: " + p2.getSize());
 
-        //Simulate gameplay where player 1 eats player 2 after both pick up food and player 1 damage player 2
+        //Create a new main object
         main game = new main();
-        System.out.println("Game Begins!");
-        System.out.println(" ");
 
-        System.out.println("Player 1 picks up food");
-        game.pickupFood(p1);
-        System.out.println(" ");
+        //Create input
+        Scanner input = new Scanner(System.in);
 
-        System.out.println("Player 2 picks up food");
-        game.pickupFood(p2);
-        System.out.println(" ");
+        //Create a while loop to keep the game running with options for eating food, damage, check size, and attempting to eat another player. Use 9 as the exit condition
+        int choice = 0;
 
-        System.out.println("Player 1 takes damage");
-        game.takeDamage(p1);
-        System.out.println(" ");
+        while (choice != 9) {
+            System.out.println("\nWhat would you like to do?");
+            System.out.println("1. Eat Food");
+            System.out.println("2. Take Damage");
+            System.out.println("3. Check Size");
+            System.out.println("4. Eat Another Player");
+            System.out.println("9. Exit");
+            System.out.print("Choice: ");
+            choice = input.nextInt();
 
-        System.out.println("Player 2 takes damage");
-        game.takeDamage(p2);
-        System.out.println(" ");
-
-        System.out.println("Player 2 takes damage");
-        game.takeDamage(p2);
-        System.out.println(" ");
-
-        System.out.println("Player 1 eats player 2");
-        game.eatPlayer(p1,p2);
-        System.out.println(" ");
+            //Switch statement to handle the user's choice
+            switch (choice) {
+                case 1:
+                    game.pickupFood(p1);
+                    game.pickupFood(p2);
+                    break;
+                case 2:
+                    game.takeDamage(p1);
+                    game.takeDamage(p2);
+                    break;
+                case 3:
+                    System.out.println("Player 1 Size: " + p1.getSize());
+                    System.out.println("Player 2 Size: " + p2.getSize());
+                    break;
+                case 4:
+                    game.eatPlayer(p1, p2);
+                    game.eatPlayer(p2, p1);
+                    break;
+                case 9:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
+            }
+        }
         
         System.out.println("Game Over!"); 
 
+        //Close input
+        input.close();
 
     }
 }

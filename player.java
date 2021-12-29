@@ -3,7 +3,7 @@ public class player {
     private String name;
     private int size = 5;
 
-    public player(String name) {
+    public player(String name, int size) {
         this.name = name;
         this.size = size;
     }
